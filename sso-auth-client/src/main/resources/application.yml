@@ -5,10 +5,12 @@ server:
 security:
   oauth2:
     client:
-      client-id: testclient
-      client-secret: testclient
-      scope: test
+      client-id: code_client
+      client-secret: code_client
+      scope: user_info
       access-token-uri: ${auth-server}/oauth/token
       user-authorization-uri: ${auth-server}/oauth/authorize
+      authorized-grant-types: authorization_code,password,refresh_token
     resource:
       token-info-uri: ${auth-server}/oauth/check_token
+      

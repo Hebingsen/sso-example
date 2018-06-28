@@ -1,6 +1,4 @@
-package com.example.sso.service.oauth2;
-
-import java.util.Objects;
+package com.example.sso.oauth2.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,29 +12,23 @@ import com.example.sso.pojo.SecurityUser;
 import com.example.sso.pojo.User;
 
 @Component
-public class Oauth2CustomUserService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		System.out.println("当前登录用户username = " + username);
-
 		User user = userMapper.selectOne(new User().setUsername(username));
-		System.out.println("从数据库查询的用户信息 : " + user);
-
-		if (Objects.isNull(user)) {
-			throw new UsernameNotFoundException("该用户不存在！");
+		if (user == null) {
+			throw new UsernameNotFoundException("admin: " + username + " do not exist!");
 		}
 
 		SecurityUser securityUser = new SecurityUser();
-		securityUser.setId(user.getId());
 		securityUser.setUsername(user.getUsername());
-		String encodePassword = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getPassword());
-		System.out.println("加密后的密码 : " + encodePassword);
-		securityUser.setPassword(encodePassword);
+		securityUser.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getPassword()));
 
 		return securityUser;
 	}

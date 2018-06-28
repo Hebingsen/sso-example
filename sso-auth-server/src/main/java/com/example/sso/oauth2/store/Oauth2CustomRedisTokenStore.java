@@ -1,4 +1,4 @@
-package com.example.sso.config.oauth2;
+package com.example.sso.oauth2.store;
 
 import java.util.ArrayList;
 import java.util.Collection;

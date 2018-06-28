@@ -1,7 +1,8 @@
-package com.example.sso.config.oauth2;
+package com.example.sso.oauth2.config;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -10,14 +11,12 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint;
+
+import com.example.sso.oauth2.store.Oauth2CustomRedisTokenStore;
 
 @Configuration
-public class Oauth2Config extends AuthorizationServerConfigurerAdapter {
+public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -57,24 +56,7 @@ public class Oauth2Config extends AuthorizationServerConfigurerAdapter {
 		// 1.认证管理器
 		endpoints.authenticationManager(authenticationManager);
 		// 2.指定token存储位置
-		//endpoints.tokenStore(oauth2CustomRedisTokenStore);
-		endpoints.tokenStore(jwtTokenStore());
-		// 3.自定义token的生成方式
-		endpoints.accessTokenConverter(accessTokenConverter());
-	}
-	
-	@Bean
-	public TokenStore jwtTokenStore() {
-		JwtTokenStore jwtTokenStore = new JwtTokenStore(accessTokenConverter());
-		return jwtTokenStore;
-	}
-	
-	
-	@Bean
-	public JwtAccessTokenConverter accessTokenConverter() {
-		JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();
-		tokenConverter.setSigningKey("hebingsen");
-		return tokenConverter;
+		endpoints.tokenStore(oauth2CustomRedisTokenStore);
 	}
 	
 	

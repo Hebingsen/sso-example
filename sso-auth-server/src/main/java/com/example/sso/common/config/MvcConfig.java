@@ -1,4 +1,4 @@
-package com.example.sso.config;
+package com.example.sso.common.config;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

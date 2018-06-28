@@ -1,4 +1,4 @@
-package com.example.sso.config.redis;
+package com.example.sso.redis;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

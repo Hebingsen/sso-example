@@ -16,6 +16,7 @@ public class CallbackController {
 	@Autowired
 	@Qualifier("oauth2PasswordResttemplate")
 	private OAuth2RestOperations oAuth2RestOperations;
+	
 
 	/**
 	 * oauth2授权码模式回调方法
@@ -25,6 +26,9 @@ public class CallbackController {
 	@GetMapping("/code")
 	public Object callBack(String code) {
 		System.err.println("code=========" + code);
+		
+		// 传入用户名与密码,实例化oauthResttemplate这个类,获取到这个类,然后在请求
+		
 		
 		OAuth2AccessToken accessToken = oAuth2RestOperations.getAccessToken();
 		return accessToken.getValue();

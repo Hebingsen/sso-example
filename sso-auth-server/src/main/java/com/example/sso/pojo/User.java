@@ -12,8 +12,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class User {
 
-	private Long id;
-	private String username;// 用户名
-	private String password;// 密码
+	protected Long id;
+	protected String username;// 用户名
+	protected String password;// 密码
 
 }
